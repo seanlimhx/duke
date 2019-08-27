@@ -7,7 +7,7 @@ public class Task {
         this.isDone = false;
     }
 
-    public void done() {
+    public void markAsDone() {
         this.isDone = true;
     }
 
@@ -15,7 +15,7 @@ public class Task {
         return name;
     }
 
-    public boolean getIsDone() {
-        return isDone;
+    public String getStatusIcon() {
+        return (this.isDone) ? "[✓]" : "[✗]";
     }
 }

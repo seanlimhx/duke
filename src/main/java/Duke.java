@@ -16,20 +16,15 @@ public class Duke {
             switch(input) {
                 case "list":
                     for (int x = 0; x < tasks.size(); x++) {
-                        //Task temp = tasks.get(x);
-                        if (tasks.get(x).getIsDone()) {
-                            System.out.println(x + 1 + ".[✓]" + tasks.get(x).getName());
-                        } else {
-                            System.out.println(x + 1 + ".[✗]" + tasks.get(x).getName());
-                        }
+                        System.out.println(x + 1 + "." + tasks.get(x).getStatusIcon() + tasks.get(x).getName());
                     }
                     break;
                 default:
                     if (input.length() >= 6 && input.substring(0, 5).equals("done ")) {
                         String number = input.substring(5);
                         int index = Integer.parseInt(number);
-                        tasks.get(index-1).done();
-                        System.out.println("Nice! I've marked this task as done:\n[✓]" + tasks.get(index-1).getName());
+                        tasks.get(index-1).markAsDone();
+                        System.out.println("Nice! I've marked this task as done:\n" + tasks.get(index-1).getStatusIcon() + tasks.get(index-1).getName());
                     } else {
                         Task task = new Task(input);
                         tasks.add(task);
