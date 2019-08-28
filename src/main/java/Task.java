@@ -22,14 +22,8 @@ public class Task {
     public String toString() {
         return this.getStatusIcon() + this.getName();
     }
-}
 
-class Todo extends Task {
-    public Todo(String name) {
-        super(name);
-    }
-
-    public String toString() {
-        return "[T]" + super.toString();
+    public String toText() {
+        return "1";
     }
 }

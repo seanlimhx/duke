@@ -9,4 +9,8 @@ public class Event extends Task {
     public String toString() {
         return "[E]" + super.toString() + "(at: " + at + ")";
     }
+
+    public String toText() {
+        return "E | " + this.getStatusIcon() + " | " + super.getName() + "| " + at;
+    }
 }
