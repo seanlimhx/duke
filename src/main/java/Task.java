@@ -18,4 +18,18 @@ public class Task {
     public String getStatusIcon() {
         return (this.isDone) ? "[✓]" : "[✗]";
     }
+
+    public String toString() {
+        return this.getStatusIcon() + this.getName();
+    }
+}
+
+class Todo extends Task {
+    public Todo(String name) {
+        super(name);
+    }
+
+    public String toString() {
+        return "[T]" + super.toString();
+    }
 }
