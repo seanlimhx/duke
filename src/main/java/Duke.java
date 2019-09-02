@@ -10,7 +10,7 @@ public class Duke {
 
         ArrayList<Task> tasks = new ArrayList<Task>();
 
-        File file = new File("C:/Users/limhx/Desktop/CEG Y2S1/CS2113/duke/src/data/data.txt");
+        File file = new File("C:/Users/limhx/Desktop/CEG/CEG Y2S1/CS2113/duke/src/data/data.txt");
         try {
             if (!file.exists()) {
                 file.createNewFile();
@@ -69,42 +69,38 @@ public class Duke {
 
         while (!input.equals("bye")) {
             try {
-                switch (input) {
+                String[] details = input.split(" ", 2);
+                switch (details[0]) {
                     case "list":
                         System.out.println("Here are the tasks in your list:");
                         for (int x = 0; x < tasks.size(); x++) {
                             System.out.println(x + 1 + "." + tasks.get(x).toString());
                         }
                         break;
+                    case "done":
+                        int index = Integer.parseInt(details[1]);
+                        tasks.get(index - 1).markAsDone();
+                        System.out.println("Nice! I've marked this task as done:\n" + tasks.get(index - 1).getStatusIcon() + tasks.get(index - 1).getName());
+                        break;
+                    case "todo":
+                        Todo todo = new Todo(details[1]);
+                        tasks.add(todo);
+                        System.out.println("Got it. I've added this task:\n" + todo.toString() + "\nNow you have " + tasks.size() + " tasks in the list.");
+                        break;
+                    case "deadline":
+                        String[] deadlineInfo = details[1].split("/by ");
+                        Deadline deadline = new Deadline(deadlineInfo[0], deadlineInfo[1]);
+                        tasks.add(deadline);
+                        System.out.println("Got it. I've added this task:\n" + deadline.toString() + "\nNow you have " + tasks.size() + " tasks in the list.");
+                        break;
+                    case "event":
+                        String[] eventInfo = details[1].split("/at ");
+                        Event event = new Event(eventInfo[0], eventInfo[1]);
+                        tasks.add(event);
+                        System.out.println("Got it. I've added this task:\n" + event.toString() + "\nNow you have " + tasks.size() + " tasks in the list.");
+                        break;
                     default:
-                        if (input.substring(0, 5).equals("done ")) {
-                            String number = input.substring(5);
-                            int index = Integer.parseInt(number);
-                            tasks.get(index - 1).markAsDone();
-                            System.out.println("Nice! I've marked this task as done:\n" + tasks.get(index - 1).getStatusIcon() + tasks.get(index - 1).getName());
-                        } else if (input.substring(0, 5).equals("todo ")) {
-                            String details = input.substring(5);
-                            System.out.println(details);
-                            Todo todo = new Todo(details);
-                            tasks.add(todo);
-                            System.out.println("Got it. I've added this task:\n" + todo.toString() + "\nNow you have " + tasks.size() + " tasks in the list.");
-                        } else if (input.substring(0, 6).equals("event ")) {
-                            String details = input.substring(6);
-                            int delimiter = details.indexOf("/");
-                            String task = details.substring(0, delimiter);
-                            String time = details.substring(delimiter + 4);
-                            Event event = new Event(task, time);
-                            tasks.add(event);
-                            System.out.println("Got it. I've added this task:\n" + event.toString() + "\nNow you have " + tasks.size() + " tasks in the list.");
-                        } else if (input.substring(0, 9).equals("deadline ")) {
-                            String details = input.substring(9);
-                            int delimiter = details.indexOf("/");
-                            String task = details.substring(0, delimiter);
-                            String time = details.substring(delimiter + 4);
-                            Deadline deadline = new Deadline(task, time);
-                            tasks.add(deadline);
-                            System.out.println("Got it. I've added this task:\n" + deadline.toString() + "\nNow you have " + tasks.size() + " tasks in the list.");
-                        }
+                        throw new DukeException();
                 }
                 input = scanner.nextLine();
             } catch (Exception e) {
