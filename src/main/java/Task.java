@@ -7,12 +7,17 @@ public class Task {
         this.isDone = false;
     }
 
-    public void markAsDone() {
-        this.isDone = true;
+    public Task(String name, boolean isDone) {
+        this.name = name;
+        this.isDone = isDone;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void markAsDone() {
+        this.isDone = true;
     }
 
     public String getStatusIcon() {
@@ -21,9 +26,5 @@ public class Task {
 
     public String toString() {
         return this.getStatusIcon() + this.getName();
-    }
-
-    public String toText() {
-        return "1";
     }
 }

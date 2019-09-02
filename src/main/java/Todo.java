@@ -3,11 +3,11 @@ public class Todo extends Task{
         super(name);
     }
 
+    public Todo(String name, boolean isDone) {
+        super(name, isDone);
+    }
+
     public String toString() {
         return "[T]" + super.toString();
     }
-    public String toText() {
-        return "T | " + this.getStatusIcon() + " | " + super.getName();
-    }
-
 }

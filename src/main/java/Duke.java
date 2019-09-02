@@ -1,15 +1,63 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.io.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
-
 public class Duke {
-    public static void main(String[] args) {
+    public static void main (String[] args) throws Exception{
+
+        ArrayList<Task> tasks = new ArrayList<Task>();
+
+        File file = new File("C:/Users/limhx/Desktop/CEG Y2S1/CS2113/duke/src/data/data.txt");
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+
+            }
+        } catch (IOException e) {
+            System.out.println("creating file failed, contact admin");
+        }
+
+        try {
+            Scanner sc = new Scanner(file);
+            //System.out.println("haven't scan");
+            while (sc.hasNextLine()) {
+                String task = sc.nextLine();
+                //System.out.println("scanned");
+                if (task.indexOf("T") == 1){
+                    String description = task.substring(6);
+                    boolean isDone = task.contains("✓");
+                    Todo todo = new Todo(description, isDone);
+                    tasks.add(todo);
+                }
+                else if (task.indexOf("D") == 1){
+                    int descriptionEnd = task.indexOf("(");
+                    String description = task.substring(6, descriptionEnd);
+                    int byEnd = task.indexOf(")");
+                    String by = task.substring(descriptionEnd+5, byEnd);
+                    boolean isDone = task.contains("✓");
+                    Deadline deadline = new Deadline(description, by, isDone);
+                    tasks.add(deadline);
+                }
+                else if (task.indexOf("E") == 1){
+                    int descriptionEnd = task.indexOf("(");
+                    String description = task.substring(6, descriptionEnd);
+                    int atEnd = task.indexOf(")");
+                    String at = task.substring(descriptionEnd+5, atEnd);
+                    boolean isDone = task.contains("✓");
+                    Event event = new Event(description, at, isDone);
+                    tasks.add(event);
+                }
+              //  System.out.println("This is what was read: " + task);
+
+            }
+            sc.close();
+        } catch (FileNotFoundException e){
+            System.out.println("File not found");
+        }
+
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -18,7 +66,7 @@ public class Duke {
         System.out.println("Hello I'm\n" + logo + "What can I do for you?");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-        ArrayList<Task> tasks = new ArrayList();
+
         while (!input.equals("bye")) {
             try {
                 switch (input) {
@@ -26,7 +74,6 @@ public class Duke {
                         System.out.println("Here are the tasks in your list:");
                         for (int x = 0; x < tasks.size(); x++) {
                             System.out.println(x + 1 + "." + tasks.get(x).toString());
-                            System.out.println(tasks.get(x).toText()); //TESTING PLS DELETE
                         }
                         break;
                     default:
@@ -68,11 +115,11 @@ public class Duke {
                             System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
                             input = scanner.nextLine();
                             break;
-                        case "deadline": //WRONG
+                        case "deadline":
                             System.out.println("☹ OOPS!!! The description of a deadline cannot be empty.");
                             input = scanner.nextLine();
                             break;
-                        case "event": //WRONG
+                        case "event":
                             System.out.println("☹ OOPS!!! The description of a event cannot be empty.");
                             input = scanner.nextLine();
                             break;
@@ -92,48 +139,20 @@ public class Duke {
             }
         }
         System.out.println("Bye. Hope to see you again soon!");
+        
 
-        String filePath = "C:/Users/limhx/Desktop/CEG Y2S1/CS2113/duke/src/data/data.txt";
-        File inputFile = new File(filePath);
-        if (inputFile.exists()) {
-            System.out.println(inputFile.getName() + " exists");
-            System.out.println("The file is " + inputFile.length() + " bytes long");
-            if (inputFile.canRead())
-                System.out.println(" ok to read");
-            else
-                System.out.println(" not ok to read");
-            if (inputFile.canWrite())
-                System.out.println(" ok to write");
-            else
-                System.out.println(" not ok to write");
-            System.out.println("path: " + inputFile.getAbsolutePath());
-            System.out.println("File Name: " + inputFile.getName());
-            System.out.println("File Size: " + inputFile.length() + " bytes");
-        } else {
-            System.out.println("File does not exist");
-            try {
-                inputFile.createNewFile();
-            }
-            catch(IOException e) {
-                System.out.println("file not found and error creating new file");
-            }
-        }
-        //use filewriter to write line by line to the file ( like system.out.print like that)
+
         try {
-            FileWriter fileWriter = new FileWriter(filePath);
-            for (int i = 0; i < tasks.size(); i++) {
-                fileWriter.write(tasks.get(i).toText() + "\n");
-                System.out.println(tasks.get(i).toText() + "\n");
-                System.out.println("task " + (i+1) + " written" );
+            FileWriter fileWriter = new FileWriter(file);
+            for (Task task : tasks) {
+                fileWriter.write(task.toString() + "\n");
+                fileWriter.write(System.lineSeparator());
             }
-            System.out.println("filewriter succeeded");
-        }
-        catch(Exception e) {
-            System.out.println("filewriter failed");
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("write to file failed");
         }
 
-        //use Scanner = new Scanner(file) to read from file can use hasNextLine as per normal
 
-        return;
     }
 }

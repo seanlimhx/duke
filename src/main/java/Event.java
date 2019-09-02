@@ -6,11 +6,12 @@ public class Event extends Task {
         this.at = at;
     }
 
-    public String toString() {
-        return "[E]" + super.toString() + "(at: " + at + ")";
+    public Event(String name, String at, boolean isDone) {
+        super(name, isDone);
+        this.at = at;
     }
 
-    public String toText() {
-        return "E | " + this.getStatusIcon() + " | " + super.getName() + "| " + at;
+    public String toString() {
+        return "[E]" + super.toString() + "(at: " + at + ")";
     }
 }
