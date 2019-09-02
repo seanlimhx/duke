@@ -22,15 +22,17 @@ public class Duke {
 
         try {
             Scanner sc = new Scanner(file);
-            //System.out.println("haven't scan");
+            System.out.println("haven't scan");
             while (sc.hasNextLine()) {
                 String task = sc.nextLine();
-                //System.out.println("scanned");
+                System.out.println("scanned");
+                System.out.println("Index of 'T' is " + task.indexOf("T"));
                 if (task.indexOf("T") == 1){
                     String description = task.substring(6);
                     boolean isDone = task.contains("✓");
                     Todo todo = new Todo(description, isDone);
                     tasks.add(todo);
+                    System.out.println("added");
                 }
                 else if (task.indexOf("D") == 1){
                     int descriptionEnd = task.indexOf("(");
@@ -50,7 +52,7 @@ public class Duke {
                     Event event = new Event(description, at, isDone);
                     tasks.add(event);
                 }
-              //  System.out.println("This is what was read: " + task);
+                System.out.println("This is what was read: " + task);
 
             }
             sc.close();
@@ -100,10 +102,11 @@ public class Duke {
                         System.out.println("Got it. I've added this task:\n" + event.toString() + "\nNow you have " + tasks.size() + " tasks in the list.");
                         break;
                     default:
+                        System.out.println("dukeexception triggered");
                         throw new DukeException();
                 }
                 input = scanner.nextLine();
-            } catch (Exception e) {
+            } catch (DukeException e) {
                 String[] inputWords = input.split(" ");
                 if (inputWords.length == 1) {
                     switch (inputWords[0]) {
