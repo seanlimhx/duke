@@ -85,6 +85,14 @@ public class Duke {
                         tasks.get(index - 1).markAsDone();
                         System.out.println("Nice! I've marked this task as done:\n" + tasks.get(index - 1).getStatusIcon() + tasks.get(index - 1).getName());
                         break;
+                    case "find":
+                        System.out.println("Here are the matching tasks in your list:");
+                        for (int x = 0; x < tasks.size(); x++) {
+                            if (tasks.get(x).getName().contains(details[1])) {
+                                System.out.println((x+1) + ". " + tasks.get(x).toString());
+                            }
+                        }
+                        break;
                     case "todo":
                         Todo todo = new Todo(details[1]);
                         tasks.add(todo);
