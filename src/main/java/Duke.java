@@ -1,3 +1,4 @@
+import java.time.DateTimeException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
@@ -22,25 +23,24 @@ public class Duke {
 
         try {
             Scanner sc = new Scanner(file);
-            System.out.println("haven't scan");
             while (sc.hasNextLine()) {
                 String task = sc.nextLine();
-                System.out.println("scanned");
-                System.out.println("Index of 'T' is " + task.indexOf("T"));
+                //System.out.println("scanned");
                 if (task.indexOf("T") == 1){
                     String description = task.substring(6);
                     boolean isDone = task.contains("✓");
                     Todo todo = new Todo(description, isDone);
                     tasks.add(todo);
-                    System.out.println("added");
+                    //System.out.println("added");
                 }
                 else if (task.indexOf("D") == 1){
                     int descriptionEnd = task.indexOf("(");
                     String description = task.substring(6, descriptionEnd);
                     int byEnd = task.indexOf(")");
                     String by = task.substring(descriptionEnd+5, byEnd);
+                    String[] dateAndTime = by.split(", ", 2);
                     boolean isDone = task.contains("✓");
-                    Deadline deadline = new Deadline(description, by, isDone);
+                    Deadline deadline = new Deadline(description, dateAndTime[0], dateAndTime[1], isDone);
                     tasks.add(deadline);
                 }
                 else if (task.indexOf("E") == 1){
@@ -48,11 +48,12 @@ public class Duke {
                     String description = task.substring(6, descriptionEnd);
                     int atEnd = task.indexOf(")");
                     String at = task.substring(descriptionEnd+5, atEnd);
+                    String[] dateAndTime = at.split(", ", 2);
                     boolean isDone = task.contains("✓");
-                    Event event = new Event(description, at, isDone);
+                    Event event = new Event(description, dateAndTime[0], dateAndTime[1], isDone);
                     tasks.add(event);
                 }
-                System.out.println("This is what was read: " + task);
+                //System.out.println("This is what was read: " + task);
 
             }
             sc.close();
@@ -102,7 +103,7 @@ public class Duke {
                         System.out.println("Got it. I've added this task:\n" + event.toString() + "\nNow you have " + tasks.size() + " tasks in the list.");
                         break;
                     default:
-                        System.out.println("dukeexception triggered");
+                        //System.out.println("dukeexception triggered");
                         throw new DukeException();
                 }
                 input = scanner.nextLine();
@@ -135,6 +136,9 @@ public class Duke {
                     input = scanner.nextLine();
                 }
 
+            } catch (DateTimeException e) {
+                System.out.println("☹ OOPS!!! Please input a correct date and time! E.g. dd/mm/yyyy HHmm (time in 24hr format)");
+                input = scanner.nextLine();
             }
         }
         System.out.println("Bye. Hope to see you again soon!");

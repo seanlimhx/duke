@@ -11,26 +11,35 @@ public class Deadline extends Task {
     public Deadline(String name, String by) {
         super(name);
         String[] dateTime = by.split(" ", 2);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        date = LocalDate.parse(dateTime[0], formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+        this.date = LocalDate.parse(dateTime[0], formatter);
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HHmm");
-        time = LocalTime.parse(dateTime[1], formatter2);
+        this.time = LocalTime.parse(dateTime[1], formatter2);
         //this.by = by;
     }
 
     public Deadline(String name, String by, boolean isDone) {
         super(name, isDone);
         String[] dateTime = by.split(" ", 2);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        date = LocalDate.parse(dateTime[0], formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+        this.date = LocalDate.parse(dateTime[0], formatter);
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HHmm");
-        time = LocalTime.parse(dateTime[1], formatter2);
+        this.time = LocalTime.parse(dateTime[1], formatter2);
         //this.by = by;
+    }
 
+    public Deadline(String name, String date, String time, boolean isDone) {
+        super(name, isDone);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy EEEE");
+        this.date = LocalDate.parse(date, formatter);
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("h:mm a");
+        this.time = LocalTime.parse(time, formatter2);
+        //this.by = by;
     }
 
     public String getDate() {
-        return this.date.format(DateTimeFormatter.ofPattern("d MMMM yyyy, EEEE"));
+        return this.date.format(DateTimeFormatter.ofPattern("d MMMM yyyy EEEE"));
     }
 
     public String getTime() {
@@ -38,6 +47,6 @@ public class Deadline extends Task {
     }
 
     public String toString() {
-        return "[D]" + super.toString() + "(by: " + getDate() /*date.toString()*/ + " " + /*time.toString()*/ getTime() + ")";
+        return "[D]" + super.toString() + "(by: " + getDate() /*date.toString()*/ + ", " + /*time.toString()*/ getTime() + ")";
     }
 }
