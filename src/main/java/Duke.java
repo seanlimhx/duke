@@ -85,6 +85,13 @@ public class Duke {
                         tasks.get(index - 1).markAsDone();
                         System.out.println("Nice! I've marked this task as done:\n" + tasks.get(index - 1).getStatusIcon() + tasks.get(index - 1).getName());
                         break;
+                    case "delete":
+                        index = Integer.parseInt(details[1]);
+                        System.out.println("Noted. I've removed this task: \n" + "     " +
+                                tasks.get(index - 1) + "\n" +
+                                "Now you have " + (tasks.size()-1) + " tasks in the list.");
+                        tasks.remove(index - 1);
+                        break;
                     case "todo":
                         Todo todo = new Todo(details[1]);
                         tasks.add(todo);
