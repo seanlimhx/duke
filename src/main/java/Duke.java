@@ -92,6 +92,14 @@ public class Duke {
                                 "Now you have " + (tasks.size()-1) + " tasks in the list.");
                         tasks.remove(index - 1);
                         break;
+                    case "find":
+                        System.out.println("Here are the matching tasks in your list:");
+                        for (int x = 0; x < tasks.size(); x++) {
+                            if (tasks.get(x).getName().contains(details[1])) {
+                                System.out.println((x+1) + ". " + tasks.get(x).toString());
+                            }
+                        }
+                        break;
                     case "todo":
                         Todo todo = new Todo(details[1]);
                         tasks.add(todo);
