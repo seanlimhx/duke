@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -25,15 +27,23 @@ public class Storage {
     public ArrayList<Task> load() throws DukeException {
         try {
             Scanner sc = new Scanner(this.file);
+            if (sc.hasNextLine()) {
+                System.out.println("file is not empty");
+            } else {
+                System.out.println("file is empty");
+            }
             while (sc.hasNextLine()) {
                 String task = sc.nextLine();
-                System.out.println("scanned");
-                if (task.indexOf("T") == 1) {
+//                System.out.println("scanned");
+                if (task.isEmpty()) {
+                    System.out.println("task is empty");
+                    continue;
+                } else if (task.indexOf("T") == 1) {
                     String description = task.substring(6);
                     boolean isDone = task.contains("✓");
                     Todo todo = new Todo(description, isDone);
                     this.tasks.add(todo);
-                    System.out.println("added");
+                    //System.out.println("added");
                 } else if (task.indexOf("D") == 1) {
                     int descriptionEnd = task.indexOf("(");
                     String description = task.substring(6, descriptionEnd);
@@ -53,9 +63,10 @@ public class Storage {
                     Event event = new Event(description, dateAndTime[0], dateAndTime[1], isDone);
                     this.tasks.add(event);
                 } else {
+                    System.out.println("entered else statement");
                     throw new DukeException(task);
                 }
-                System.out.println("This is what was read: " + task);
+                //System.out.println("This is what was read: " + task);
             }
             sc.close();
         } catch (FileNotFoundException e){

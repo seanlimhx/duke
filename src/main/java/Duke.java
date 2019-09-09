@@ -17,9 +17,14 @@ public class Duke {
         try {
             tasks = new TaskList(storage.load());
         } catch (DukeException e) {
-            ui.showLoadingError();
-            System.out.println("This is the task that went wrong: " + e);
-            tasks = new TaskList();
+            if (e.getMessage().isEmpty()) {
+                tasks = new TaskList();
+            } else {
+                ui.showLoadingError();
+                System.out.println(e.getMessage());
+                System.out.println("This is the task that went wrong: '" + e.getMessage() + "'.");
+                tasks = new TaskList();
+            }
         }
     }
 
@@ -27,14 +32,21 @@ public class Duke {
         ui.showWelcome();
         boolean isExit = false;
         while (!isExit) {
+            String fullCommand = ui.readCommand();
+            //System.out.println("--reading command");
+            ui.showLine();
             try {
-                String fullCommand = ui.readCommand();
-                ui.showLine();
                 Command c = Parser.parse(fullCommand);
-                c.execute(tasks);
+                //System.out.println("--getting details");
+                //System.out.println(c.getDetails());
+                //System.out.println("--created Command object");
+                //System.out.println("--executing Command");
+                c.execute(tasks, storage);
+//                System.out.println("--executed Command");
                 isExit = c.isExit();
-            } catch (DukeException e) {
-                ui.showError(e.getMessage());
+            } catch (DukeException | ArrayIndexOutOfBoundsException e) {
+                //System.out.println(e.getMessage());
+                ui.showError(fullCommand);
             } finally {
                 ui.showLine();
             }

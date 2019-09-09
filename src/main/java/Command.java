@@ -1,5 +1,5 @@
 public abstract class Command {
-    private boolean isExit = false;
+    protected boolean isExit = false;
     private String details;
 
     public Command(String details) {
@@ -16,5 +16,5 @@ public abstract class Command {
         return this.isExit;
     }
 
-    public abstract void execute(TaskList tasks);
+    public abstract void execute(TaskList tasks, Storage storage);
 }

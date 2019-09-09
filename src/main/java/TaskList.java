@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class TaskList {
-    private static ArrayList<Task> tasks = new ArrayList<Task>();
+    private ArrayList<Task> tasks = new ArrayList<Task>();
 
     public TaskList() {};
 
@@ -9,30 +9,34 @@ public class TaskList {
         this.tasks = tasks;
     }
 
-    public static int getNumOfTasks() {
-        return tasks.size();
+    public int getNumOfTasks() {
+        return this.tasks.size();
     }
 
-    public void getAllTasks() {
+    public void printAllTasks() {
         for (Task task : tasks) {
             System.out.println(task.toString());
         }
     }
 
-    public static Task getIndivTask(int index) {
-        return tasks.get(index);
+    public ArrayList<Task> getArrayListTasks() {
+        return this.tasks;
     }
 
-    public static void markAsDone(int index) {
-        tasks.get(index).markAsDone();
+    public Task getIndivTask(int index) {
+        return this.tasks.get(index);
     }
 
-    public static void deleteTask(int index) {
-        tasks.remove(index);
+    public void markAsDone(int index) {
+        this.tasks.get(index).markAsDone();
     }
 
-    public static void addTask(Task task) {
-        tasks.add(task);
+    public void deleteTask(int index) {
+        this.tasks.remove(index);
+    }
+
+    public void addTask(Task task) {
+        this.tasks.add(task);
     }
 
 }
