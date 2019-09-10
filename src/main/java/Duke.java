@@ -53,7 +53,7 @@ public class Duke {
         }
     }
     public static void main(String[] args) {
-        new Duke("C:/Users/limhx/Desktop/CEG/CEG Y2S1/CS2113/duke/src/data/data.txt").run();
+        new Duke("C:/Users/limhx/Desktop/CEG/CEGY2S1/CS2113/duke/src/data/data.txt").run();
     }
 
 /*
